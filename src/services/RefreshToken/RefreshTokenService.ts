@@ -7,8 +7,6 @@ class RefreshTokenService {
     async execute(refresh_token: string) {
         
         try {
-            console.log('SECRET: ', process.env.JWT_SECRET);
-            
             verify(refresh_token, process.env.JWT_SECRET);
 
             const decodedToken = decode(refresh_token, { complete: true});
@@ -19,10 +17,7 @@ class RefreshTokenService {
                 throw new Error("Token type invalid");
             }
 
-            const userId: string  = decodedToken.payload.sub as string;
-
-
-            console.log('userId: ' + userId);
+            const userId: string  = decodedToken.payload.sub as string;            
 
             const userExists = await client.user.findFirst({
                 where: {
